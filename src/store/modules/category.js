@@ -1,9 +1,10 @@
 import axios from 'axios'
-import {categoryUrl} from '../../packages/config'
+import {categoryUrl,addParent} from '../../packages/config'
 
 const state = {
   categories :[],
-  CheckedCategoryIds:[],
+  checkedCategories:[],
+  firstParentId:''
 }
 
 const getters={
@@ -12,7 +13,7 @@ const getters={
   },
 
   getsize(){
-    return state.CheckedCategoryIds.length
+    return state.checkedCategories.length
   }
 }
 
@@ -22,24 +23,48 @@ const mutations = {
   },
 
   checkedCategory(state,idCategory){
-    state.CheckedCategoryIds.push(
+    state.checkedCategories.push(
        idCategory
     )
+    state.firstParentId = idCategory.parent_id
   },
 
   unCheckedCategory(state, idCategory){
-    const index = state.CheckedCategoryIds.findIndex(item => item.id == idCategory)
-    state.CheckedCategoryIds.splice(index, 1)
+    const index = state.checkedCategories.findIndex(item =>  item.id == idCategory)
+    // console.log('index: ', index)
+    if(index >= 0){
+      state.checkedCategories.splice(index, 1)
+    }
+    if(state.checkedCategories.length==0){
+      state.firstParentId = ''
+    }
   },
 
   addCategorySubmit(state, Categories){
     state.categories = Categories
+},
+
+  addParentSubmit(state, Categories){
+    state.categories = Categories
+    state.checkedCategories = []
+    state.firstParentId = ''
   },
 
-  deleteCategory(state, idCategory){
-    const index = state.categories.findIndex(item => item.id == idCategory)
-    state.categories.splice(index, 1)
-    state.CheckedCategoryIds=[]
+  addChildrenSubmit(state, Categories){
+    state.categories = Categories
+    state.checkedCategories = []
+    state.firstParentId = ''
+  },
+
+  deleteCategory(state, Categories){
+    // const index = state.categories.findIndex(item => item.id == idCategory)
+    // if(index >= 0){
+    //   state.categories.splice(index, 1)
+    //   state.checkedCategories=[]
+    // }
+    state.categories = Categories
+    state.checkedCategories = []
+    state.firstParentId = ''
   },
 
 }
@@ -60,29 +85,17 @@ const actions = {
       return new Promise((resolve, reject) => {
         axios.get(categoryUrl +'/'+id)
         .then(response=>{
-
-          if (state.CheckedCategoryIds.length <1){
+          if (state.checkedCategories.length <1){
             context.commit('checkedCategory', response.data)
-
           }
           else{
-            // state.CheckedCategoryIds.forEach(todo => (todo.completed = checked))
-            for(is in state.CheckedCategoryIds){
-              console.log('element: '+is)
+            if(state.firstParentId === response.data.parent_id){
+              context.commit('checkedCategory', response.data)
+              resolve(response)
+            }else{
+              resolve(false)
             }
-            // state.CheckedCategoryIds.forEach(element => {
-            //
-            //   if (response.parent_id == element.parent_id){
-            //     context.commit('checkedCategory', response.data)
-            //   }else{
-
-            //   }
-            // });
-
-            resolve(response)
-
           }
-
         })
         .catch(error =>{
           console.log(error)
@@ -103,16 +116,10 @@ const actions = {
     addCategorySubmit(context,data){
       axios.post(categoryUrl, {
         name: data.name,
-        parent_id: 0,
+        parent_id: data.parent_id,
       })
       .then(response => {
-        axios.get(categoryUrl)
-        .then(response => {
-          context.commit('addCategorySubmit', response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+        context.commit('addCategorySubmit', response.data)
       })
       .catch(error => {
         console.log(error)
@@ -120,16 +127,35 @@ const actions = {
     },
 
     addParentSubmit(context, data){
-      const CategoryIds = state.CheckedCategoryIds
-      // console.log(categoryUrl)
-      axios.post(categoryUrl,
+      const checkedCategories = context.state.checkedCategories
+      const parent_id = state.firstParentId
+      // console.log(checkedCategories)
+      axios.post(addParent,
       {
-          categoriesIds: CategoryIds,
-          name: data.name
+          checkedCategories: checkedCategories,
+          name: data.name,
+          parent_id:parent_id,
       })
         .then(response => {
-          console.log(response)
-          // context.commit('clearCompleted')
+          // console.log(response)
+          context.commit('addParentSubmit',response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    addChildrenSubmit(context, data){
+      const checkedCategories = context.state.checkedCategories
+      // console.log(checkedCategories)
+      axios.post(categoryUrl,
+      {
+          name: data.name,
+          parent_id:checkedCategories[0].id,
+      })
+        .then(response => {
+          // console.log(response)
+          context.commit('addChildrenSubmit',response.data)
         })
         .catch(error => {
           console.log(error)
@@ -137,10 +163,10 @@ const actions = {
     },
 
     deleteCategory(context){
-      const idCategory = state.CheckedCategoryIds
-      axios.delete(categoryUrl + idCategory)
+      const checkedCategories = context.state.checkedCategories
+      axios.delete(categoryUrl +'/'+ checkedCategories[0].id)
         .then(response => {
-          context.commit('deleteCategory', idCategory)
+          context.commit('deleteCategory', response.data)
         })
         .catch(error => {
           console.log(error)

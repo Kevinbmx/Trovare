@@ -4,6 +4,7 @@ import VueResource from 'vue-resource'
 import store from './store/store'
 import routes from './routes'
 import VeeValidate from 'vee-validate'
+import VueSweetalert2 from 'vue-sweetalert2';
 
 import CxltToastr from 'cxlt-vue2-toastr'
 
@@ -25,6 +26,7 @@ Vue.config.productionTip = false
 Vue.use(vueRouter)
 Vue.use(VueResource)
 Vue.use(VeeValidate)
+Vue.use(VueSweetalert2);
 
 Vue.use(CxltToastr, toastrConfigs)
 Vue.component('app',App)

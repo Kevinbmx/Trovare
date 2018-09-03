@@ -6,20 +6,15 @@
 
       >
       <input type="checkbox" @click="addListChecked($event)" :id="node.id" :value="node.id"  v-model="checkedCategories">
-
-      <!-- <label for="checkbox">{{ checked }}</label> -->
       {{ node.name }}
       <a  @click="toggle" v-if="isFolder">[{{ open ? '-' : '+' }}]</a>
     </div>
-   <!-- {{node.name}} -->
     <ul v-show="open" v-if="isFolder">
       <node
         v-for="(node,index) in node.children"
         :key="index"
-        :node="node"
-      >
+        :node="node">
       </node>
-      <!-- <li class="add" @click="addChild">+</li> -->
     </ul>
   </li>
   </div>
@@ -31,7 +26,6 @@ export default {
   data: function () {
     return {
       open: false,
-      // checked: false,
       checkedCategories:false,
       categoryIds:[]
     }
@@ -51,6 +45,7 @@ export default {
         this.open = !this.open
       }
     },
+
     changeType: function () {
       if (!this.isFolder) {
         this.$set(this.node, 'children', [])
@@ -58,6 +53,7 @@ export default {
         this.open = true
       }
     },
+
     addChild: function () {
       this.node.children.push({
         name: 'new stuff'
@@ -66,34 +62,27 @@ export default {
 
     addListChecked:function(e){
       if (e.target.checked) {
-        // console.log(e.target.checked)
-        // $(e.target).prop("checked", false)
-        // e.target.checked ='false'
-      //  this.checkedCategories = false
-        // console.log(e.target.checked)
-
         this.$store.dispatch('checkedCategory', e.target.value)
         .then(response =>{
-          // if(response.data){
-          //   $(e.target).prop("checked", false)
-          //   console.log('no se puede agregar')
-          // }
-          console.log(response.data )
+          if(!response){
+            this.$swal({
+              type: 'warning',
+              title: 'chequeo incorrecto',
+              text: 'debes de chequear de la misma raiz!'
+            });
+            $(e.target).prop("checked", false)
+          }
         })
       }else{
-          //  console.log(e)
         this.$store.dispatch('unCheckedCategory', e.target.value)
-
       }
-      // console.log(this.checkedCategories)
     },
-
   }
 };
 </script>
 
 <style>
-li{
-  list-style: none;
-}
+  li{
+    list-style: none;
+  }
 </style>

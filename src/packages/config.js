@@ -8,7 +8,7 @@ export const registertUrl = apiDomain + 'api/register'
 //----------------------------------------------------
 //-------------------CATEGORY-------------------------
 export const categoryUrl = apiDomain + 'api/category'
-// export const categorByIdyUrl = apiDomain + 'api/CategoryById'
+export const addParent = apiDomain + 'api/addParent'
 
 
 // export const addCategoryUrl = apiDomain + 'api/category'

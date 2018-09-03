@@ -7,7 +7,7 @@
               <h5>{{nameLabel}}</h5>
               <div class="ibox-tools">
                 <!-- <button type="button" class="btn btn-link" data-toggle="popover" title="info" data-content="seleccione uno o varias categorias para que se habilite la opcion de a;adir,editar o eliminar"><i class="fas fa-info-circle"></i></button> -->
-                <button class="btn btn-link" data-toggle="tooltip" data-placement="top" title="seleccione uno o varias categorias para que se habilite la opcion de a;adir,editar o eliminar"><i class="fas fa-info-circle"></i></button>
+                <!-- <button class="btn btn-link" data-toggle="tooltip" data-placement="top" title="seleccione uno o varias categorias para que se habilite la opcion de a;adir,editar o eliminar"><i class="fas fa-info-circle"></i></button> -->
                   <a href="#" class="collapse-link">
                       <i class="fas fa-chevron-down"></i>
                   </a>
@@ -77,7 +77,6 @@
                 </div>
                 <ul>
                   <node-tree v-for="(child,index) in getCategory" :key="index" :node="child"></node-tree>
-                  <!-- <tree :tree-data="tree"></tree> -->
                 </ul>
               </div>
             </div>
@@ -89,7 +88,14 @@
 </template>
 
 <script>
-// import Tree from "./tree";
+/**
+ * TODO:
+ *
+ *
+ * FIXME:
+ * -arreglar el chequeo automatico cuando creas , a;adis nuevo padre, y creas hijo
+ * -arreglar el chequeo automatico cuando se quiere chequear en una raiz no correspondiente
+*/
 import NodeTree from "./nodeTree";
 export default {
   data: () => ({
@@ -102,7 +108,6 @@ export default {
     loading: false,
   }),
   components: {
-    // Tree,
     NodeTree
   },
   created(){
@@ -115,6 +120,7 @@ export default {
 
   },
   methods:{
+
      getsize(){
       return this.$store.getters.getsize
     },
@@ -131,7 +137,30 @@ export default {
       this.nameModal="Add Children"
     },
     deleteCategory(){
-      this.$store.dispatch('deleteCategory')
+      this.$swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          this.$store.dispatch('deleteCategory')
+          this.$swal(
+            'Eliminado!',
+            'tu categoria ha sido eliminada.',
+            'success'
+          )
+        }else{
+           this.$swal(
+            'Cancelado!',
+            'tu categoria esta a salvo.',
+            'error'
+          )
+        }
+      })
     },
     categorySubmit(){
       if (this.nameMethod ==="addCategory")
@@ -141,9 +170,10 @@ export default {
           name: this.nameCategory,
           parent_id: 0,
         })
-        this.nameCategory = ""
-        $('#categoryModal').modal('hide')
-        //  this.$store.dispatch('retrieveCategory')
+        .then(response =>{
+          console.log(response)
+        })
+       this.hideBeforeSubmit()
       }
       else if(this.nameMethod ==="addParent")
       {
@@ -151,11 +181,21 @@ export default {
         {
           name: this.nameCategory,
         })
+       this.hideBeforeSubmit()
       }
       else
       {
-        // this.$store.dispatch('addChildrenSubmit')
+        this.$store.dispatch('addChildrenSubmit',
+        {
+          name: this.nameCategory,
+        })
+        this.hideBeforeSubmit()
       }
+    },
+
+    hideBeforeSubmit(){
+        this.nameCategory = ''
+        $('#categoryModal').modal('hide')
     }
 
 
@@ -166,5 +206,9 @@ export default {
 </script>
 
 <style>
+  /* ul, li{
+    margin-top: 10px;
+    margin-bottom: 10px;
 
+  } */
 </style>
