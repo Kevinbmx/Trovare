@@ -9,11 +9,10 @@ export const registertUrl = apiDomain + 'api/register'
 //-------------------CATEGORY-------------------------
 export const categoryUrl = apiDomain + 'api/category'
 export const addParent = apiDomain + 'api/addParent'
+//----------------------------------------------------
+//-------------------PRODUCT-------------------------
+export const productUrl = apiDomain + 'api/product'
 
-
-// export const addCategoryUrl = apiDomain + 'api/category'
-// export const deleteCategoryUrl = apiDomain + 'api/category/'
-// export const CategoryByIdUrl = apiDomain + 'api/category'
 
 
 //----------------------------------------------------

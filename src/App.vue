@@ -49,11 +49,15 @@ export default {
 </script>
 
 <style lang="scss">
+
   @import url("./assets/css/bootstrap-3-3-7.css");
+  @import url("./assets/css/normalize.css");
   @import url("./assets/css/fontawesome-all.css");
   @import url("./assets/css/defaultAdmin.css");
   @import url("./assets/css/animate.css");
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
+  @import url("./assets/css/vue-treeselect.min.css");
+
+  // @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
   @import url('cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css');
 
   // @import url("./assets/css/toastr.css");

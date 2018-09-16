@@ -93,7 +93,7 @@
  *
  *
  * FIXME:
- * -arreglar el chequeo automatico cuando creas , a;adis nuevo padre, y creas hijo
+ * -arreglar el chequeo automatico cuando creas , añadis nuevo padre, y creas hijo
  * -arreglar el chequeo automatico cuando se quiere chequear en una raiz no correspondiente
 */
 import NodeTree from "./nodeTree";
@@ -117,10 +117,8 @@ export default {
      getCategory() {
     return this.$store.getters.getCategory
     },
-
   },
   methods:{
-
      getsize(){
       return this.$store.getters.getsize
     },

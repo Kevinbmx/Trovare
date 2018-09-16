@@ -7,6 +7,7 @@ import VeeValidate from 'vee-validate'
 import VueSweetalert2 from 'vue-sweetalert2';
 
 import CxltToastr from 'cxlt-vue2-toastr'
+import Vuelidate from 'vuelidate'
 
 
 const toastrConfigs = {
@@ -27,6 +28,7 @@ Vue.use(vueRouter)
 Vue.use(VueResource)
 Vue.use(VeeValidate)
 Vue.use(VueSweetalert2);
+Vue.use(Vuelidate)
 
 Vue.use(CxltToastr, toastrConfigs)
 Vue.component('app',App)

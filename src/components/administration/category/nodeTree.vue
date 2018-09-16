@@ -1,10 +1,7 @@
 <template>
 <div>
   <li>
-    <div
-      :class="{bold: isFolder}"
-
-      >
+    <div :class="{bold: isFolder}">
       <input type="checkbox" @click="addListChecked($event)" :id="node.id" :value="node.id"  v-model="checkedCategories">
       {{ node.name }}
       <a  @click="toggle" v-if="isFolder">[{{ open ? '-' : '+' }}]</a>
