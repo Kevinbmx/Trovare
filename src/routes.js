@@ -21,6 +21,8 @@ const routes = [
   {path: '/product', component:Product, name:'mainProduct', meta:{requiresAuth:true}},
   {path: '/product/create', component:ProductForm, name:'createProduct', meta:{requiresAuth:true}},
   {path: '/product/:id/edit', component:ProductForm, name: 'editProduct', meta: {requiresAuth:true, mode: 'edit'}},
+  //-----------------------------------Attribute-----------------------------------------
+
 ]
 
 

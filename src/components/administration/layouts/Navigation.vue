@@ -57,18 +57,20 @@
                 </li>
                 <li id="Moduleinventario">
                             <a href="#"><i class="fas fa-list-alt"></i> <span class="nav-label">Modulo de Inventario</span> <span class="fa arrow"></span></a>
-                            <ul  class="nav nav-second-level collapse" style="height: 0px;">
+                            <ul class="nav nav-second-level collapse" style="height: 0px;">
 
-                                <li id="inventario">
+                                <li id="listModuleinventario">
                                     <a href="#" id="damian">Inventario <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level collapse" >
+                                    <ul  class="nav nav-third-level collapse" >
 
-                                            <li>
-                                                <a href="#">Lista de categoria</a>
+                                            <li id="category">
+                                                <router-link v-bind:to="{name: 'mainCategory'}">Lista de categoria</router-link>
+                                                <!-- <a href="#">Lista de categoria</a> -->
                                             </li>
 
-                                            <li>
-                                                <a href="#">Lista de Articulos</a>
+                                            <li id="articles">
+                                                <router-link v-bind:to="{name: 'mainProduct'}">Lista de Articulos</router-link>
+                                                <!-- <a href="#">Lista de Articulos</a> -->
                                             </li>
 
                                             <li>

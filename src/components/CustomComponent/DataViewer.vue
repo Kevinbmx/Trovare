@@ -160,6 +160,7 @@
             },
             fetchData: function () {
                 var vm = this
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.auth.token
                 axios.get(this.buildURL())
                     .then(function(response) {
                         Vue.set(vm.$data, 'model', response.data.model)

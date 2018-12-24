@@ -74,6 +74,7 @@ const actions = {
     // axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get(categoryUrl)
         .then(response => {
+          console.log(response.data)
           context.commit('retrieveCategory', response.data)
         })
         .catch(error => {

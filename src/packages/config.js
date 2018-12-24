@@ -1,4 +1,4 @@
-export const apiDomain = 'http://webtrovare.test:8000/'
+export const apiDomain = 'http://webtrovare.test/'
 //---------------------AUTH--------------------------
 export const loginUrl =  apiDomain + 'oauth/token'
 export const userUrl = apiDomain + 'api/user'
@@ -12,7 +12,18 @@ export const addParent = apiDomain + 'api/addParent'
 //----------------------------------------------------
 //-------------------PRODUCT-------------------------
 export const productUrl = apiDomain + 'api/product'
+//-------------------ATTRIBUTE-------------------------
+export const attributeUrl = apiDomain + 'api/attribute'
+//-------------------VALUE-------------------------
+export const valueUrl = apiDomain + 'api/value'
+//----------------ATTRIBUTE-VALUE-------------------------
+export const attributeValueUrl = apiDomain + 'api/attributeValue'
 
+//----------------BLENDATTRIBUTEVALUE-------------------------
+export const blendAttributeValueUrl = apiDomain + 'api/blendAttributeValue'
+
+//-------------------STATUS-PRODUCT-----------------------
+export const statusProductUrl = apiDomain + 'api/statusProduct'
 
 
 //----------------------------------------------------

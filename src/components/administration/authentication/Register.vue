@@ -40,7 +40,7 @@
         </div>
         <div class="form-group mb-0">
            <button class="btn btn-primary block full-width m-b">
-                Login
+                Register
                 <div class="lds-ring-container"
                   v-if="loading">
                   <div class="lds-ring"><div></div><div></div><div></div><div></div>

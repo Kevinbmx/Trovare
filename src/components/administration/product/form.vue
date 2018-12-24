@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper wrapper-content fadeInRight">
+    <div id="add" class="wrapper wrapper-content fadeInRight">
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
@@ -15,8 +15,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="m-b-md">
-                                     <router-link class="btn btn-warning min-letter" v-bind:to="'/'"><i class="fas fa-arrow-left"></i> Lista de Usuarios</router-link>
-                                    <!-- <a href="{{url('/admin/user')}}" class="btn btn-warning min-letter"><i class="fas fa-arrow-left"></i> Lista de Usuarios</a> -->
+                                     <router-link class="btn btn-warning min-letter" v-bind:to="{name: 'mainProduct'}"><i class="fas fa-arrow-left"></i> Lista de productos</router-link>
                                 </div>
                             </div>
                         </div>
@@ -27,9 +26,10 @@
                                     <div class="columns">
                                         <div class="column is-8 is-offset-2">
                                             <horizontal-stepper :steps="demoSteps" @completed-step="completeStep"
-                                                                @active-step="isStepActive" @stepper-finished="alert"
-                                            >
+                                                                @active-step="isStepActive" @stepper-finished="alert">
                                             </horizontal-stepper>
+      
+
                                         </div>
                                     </div>
                                 </div>
@@ -50,17 +50,19 @@ import Treeselect from '@riophae/vue-treeselect'
     // This components will have the content for each stepper step.
     import StepOne from './stepOne.vue';
     import StepTwo from './stepTwo.vue';
-    // import StepThree from './stepTwo.vue';
+    import StepThree from './stepThree.vue';
 
     export default {
         components: {
             HorizontalStepper,
+
     // Treeselect
 
         },
+        name: 'app',
         data(){
           return {
-            title:'crear nuevo Usuario',
+            title:'crear nuevo Producto',
             demoSteps: [
               {
                 icon: 'create',
@@ -79,8 +81,15 @@ import Treeselect from '@riophae/vue-treeselect'
                 component: StepTwo,
                 completed: false
               },
+            //   {
+            //       icon:'description',
+            //       name:'descipcion',
+            //       title:'descripcion',
+            //       component:StepThree,
+            //       completed:false
+            //   }
             ],
-            category:[],
+            //category:[],
             normalizer(node) {
               return {
                 label: node.name,
@@ -88,7 +97,17 @@ import Treeselect from '@riophae/vue-treeselect'
             },
           }
         },
+       mounted(){
+            this.removeCollapse();
+        },
+     
         methods: {
+            //menu collapse 
+            removeCollapse(){
+                $("#Moduleinventario").addClass("active");
+                $("#listModuleinventario").addClass("active");
+                $("#articles").addClass("active");
+            },
             // Executed when @completed-step event is triggered
             completeStep(payload) {
                 this.demoSteps.forEach((step) => {
@@ -107,10 +126,18 @@ import Treeselect from '@riophae/vue-treeselect'
                     }
                 })
             },
+        
             // Executed when @stepper-finished event is triggered
-            alert(payload) {
-                alert('end')
+            async alert(payload) {
+                await this.$store.dispatch('addProductSubmit',this.$store.state.auth.token)
+                await this.$store.dispatch('addAttributeSubmit')
+                await this.$store.dispatch('addValueSubmit')
+                await this.$store.dispatch('addAttributeValueSubmit')
+                await this.$store.dispatch('addPosibleProductSubmit',this.$store.state.auth.token)
+                await this.$store.dispatch('addBlendAttributeValueSubmit')
+                console.log('termino')
             }
         }
     }
 </script>
+

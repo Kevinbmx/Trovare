@@ -57,7 +57,7 @@
 </template>
 <script>
 import {loginUrl, getHeader,userUrl} from '../../../packages/config'
-import {clientId ,clientSecret} from '../../../env'
+//import {clientId ,clientSecret} from '../../../env'
 export default {
   name:'login',
   props:{

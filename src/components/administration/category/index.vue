@@ -75,7 +75,7 @@
                   <div class="lds-ring"><div></div><div></div><div></div><div></div>
                   </div>
                 </div>
-                <ul>
+                <ul class="pl-0">
                   <node-tree v-for="(child,index) in getCategory" :key="index" :node="child"></node-tree>
                 </ul>
               </div>
@@ -110,15 +110,24 @@ export default {
   components: {
     NodeTree
   },
+  mounted(){
+    // this.removeCollapse();
+  },
   created(){
       this.$store.dispatch('retrieveCategory')
   },
   computed:{
-     getCategory() {
-    return this.$store.getters.getCategory
+    getCategory() {
+      return this.$store.getters.getCategory
     },
   },
   methods:{
+    //menu collapse 
+    removeCollapse(){
+      $("#Moduleinventario").addClass("active");
+      $("#listModuleinventario").addClass("active");
+      $("#category").addClass("active");
+    },
      getsize(){
       return this.$store.getters.getsize
     },
@@ -195,10 +204,6 @@ export default {
         this.nameCategory = ''
         $('#categoryModal').modal('hide')
     }
-
-
-
-
   }
 };
 </script>

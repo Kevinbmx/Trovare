@@ -35,7 +35,8 @@
                               <td>{{props.item.price}} bs.</td>
                               <td>{{props.item.categories.name}}</td>
                               <td>{{props.item.peso}} kg</td>
-                              <td>{{props.item.alto}} x {{props.item.ancho}} x {{props.item.fondo}}</td>
+                              <td>{{props.item.alto}} x {{props.item.ancho}} x {{props.item.fondo}} cm</td>
+                              <!-- <td> {{props.item.hasChildren}} </td> -->
                               <td>{{props.item.created_at}}</td>
                           </tr>
                       </template>
@@ -50,7 +51,7 @@
   </div>
 </template>
 <script>
-    import DataViewer from '../../dataViewer/DataViewer.vue'
+    import DataViewer from '../../CustomComponent/DataViewer.vue'
     import {productUrl,categoryUrl} from '../../../packages/config'
     export default {
         name: 'ProductIndex',
@@ -70,6 +71,7 @@
                     {title: 'categoria Id', key: 'category_id', sort: true},
                     {title: 'peso', key: 'dimension'},
                     {title: 'dimension', key: 'fondo'},
+                    // {title: 'tiene Hijo', key: 'hasChildren'},
                     {title: 'Created At', key: 'created_at', sort: true}
                 ],
                 filter: [
@@ -80,7 +82,16 @@
         components: {
             DataViewer
         },
+        mounted(){
+            // this.removeCollapse();
+        },
         methods: {
+                //menu collapse 
+            removeCollapse(){
+                $("#Moduleinventario").addClass("active");
+                $("#listModuleinventario").addClass("active");
+                $("#articles").addClass("active");
+            },
           findNameCategory($id){
              axios.get(categoryUrl+'/'+$id)
                 .then(function(response) {
@@ -89,6 +100,13 @@
                 .catch(function(error) {
                   console.log(error)
                 })
+          },
+          trueOrFalse(hasChildren){
+              if(hasChildren){
+                  return true
+              }else{
+                return false
+              }
           }
 
       }
